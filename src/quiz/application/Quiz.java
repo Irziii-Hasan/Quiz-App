@@ -4,29 +4,43 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * This class represents a Quiz application where users can answer Java-related questions.
+ * The application provides functionalities like a timer, lifeline, and score calculation.
+ */
 public class Quiz extends JFrame implements ActionListener {
-
+    
+// Arrays to hold questions, answers, and user answers
     private String[][] questions = new String[10][5];
     private String[][] answers = new String[10][2];
     private String[][] userAnswers = new String[10][1];
+    
+    // GUI components declaration
     private JLabel qno, question;
     private JRadioButton opt1, opt2, opt3, opt4;
     private ButtonGroup groupOptions;
     private JButton next, submit, lifeline;
 
+    // Timer and score variables    
     private int timer = 15;
     private int ansGiven = 0;
     private int count = 0;
     private int score = 0;
 
+    // Timer and score variables
     private String name;
 
+/**
+     * Constructor to initialize the Quiz application.
+     * @param name The name of the user taking the quiz.
+     */    
     public Quiz(String name) {
         this.name = name;
+        // Setting JFrame properties        
         setBounds(50, 0, 1440, 850);
         getContentPane().setBackground(Color.WHITE);
         setLayout(null);
-
+        // Adding background image
         ImageIcon imageIcon = new ImageIcon(ClassLoader.getSystemResource("icons/quiz.jpg"));
         JLabel image = new JLabel(imageIcon);
         image.setBounds(0, 0, 1440, 392);
@@ -42,6 +56,7 @@ public class Quiz extends JFrame implements ActionListener {
         question.setFont(new Font("Tahoma", Font.PLAIN, 24));
         add(question);
 
+        // Populate questions and answers        
         initializeQuestionsAndAnswers();
 
         opt1 = new JRadioButton();
@@ -98,13 +113,22 @@ public class Quiz extends JFrame implements ActionListener {
         submit.addActionListener(this);
         submit.setEnabled(false);
         add(submit);
-
+       
+        // Start the quiz
         start(count);
 
+        // Make the JFrame visible        
         setVisible(true);
     }
 
+    /**
+     * Handle actions performed on buttons like Next, Lifeline, and Submit.
+     * @param ae
+     */
+    @Override
     public void actionPerformed(ActionEvent ae) {
+        // Code to handle actions on buttons is implemented here.
+        // Depending on the source of the event, appropriate actions are taken.
         if (ae.getSource() == next) {
             repaint();
             opt1.setEnabled(true);
@@ -155,7 +179,12 @@ public class Quiz extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Override paint method to handle timer functionality and update the UI.
+     */
+    @Override
     public void paint(Graphics g) {
+        // Code to handle timer functionality and UI updates is implemented here.
         super.paint(g);
 
         String time = "Time left - " + timer + " seconds";
@@ -219,7 +248,12 @@ public class Quiz extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Start the quiz with a specific question based on the count.
+     * @param count The question number to be displayed.
+     */
     public void start(int count) {
+        // Code to populate the question and options based on the count is implemented here.        
         qno.setText("" + (count + 1) + ". ");
         question.setText(questions[count][0]);
         opt1.setText(questions[count][1]);
@@ -237,7 +271,11 @@ public class Quiz extends JFrame implements ActionListener {
         groupOptions.clearSelection();
     }
 
+    /**
+     * Initialize the questions and answers for the quiz.
+     */
     private void initializeQuestionsAndAnswers() {
+        // Code to initialize questions and their corresponding answers is implemented here.        
         questions[0][0] = "Which is used to find and fix bugs in the Java programs?";
         questions[0][1] = "JVM";
         questions[0][2] = "JDB";
@@ -310,6 +348,10 @@ public class Quiz extends JFrame implements ActionListener {
         answers[9][1] = "Bytecode is executed by JVM";
     }
 
+    /**
+     * Main method to start the Quiz application.
+     * @param args Command line arguments (not used in this application).
+     */
     public static void main(String[] args) {
         new Quiz("User");
     }
